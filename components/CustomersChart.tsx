@@ -36,6 +36,13 @@ export function CustomersChart() {
     if (error) return <div className="text-red-500">{error}</div>
     if (!data.length) return <div>Loading...</div>
 
+    // chart k lia data
+    const chartData = data.map((item) => ({
+        date: new Date(item.date2).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        web: item.unique_count,
+        offline: item.cumulative_tweets - item.unique_count,
+    }))
+
     return (
         <Card className="border-0 shadow-sm">
             <CardHeader>
@@ -44,24 +51,31 @@ export function CustomersChart() {
             <CardContent>
                 <div className="h-[200px]">
                     <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={data}>
+                        <LineChart data={chartData}>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                            <XAxis dataKey="month" />
+                            <XAxis dataKey="date" />
                             <YAxis />
                             <Tooltip />
-                            <Line type="monotone" dataKey="web" stroke="#2196F3" strokeWidth={2} dot={false} />
-                            <Line type="monotone" dataKey="offline" stroke="#90CAF9" strokeWidth={2} dot={false} />
+                            <Line type="monotone" dataKey="web" name="Web sales" stroke="#2196F3" strokeWidth={2} dot={false} />
+                            <Line
+                                type="monotone"
+                                dataKey="offline"
+                                name="Offline selling"
+                                stroke="#90CAF9"
+                                strokeWidth={2}
+                                dot={false}
+                            />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
                 <div className="mt-4 flex items-center justify-between text-sm">
                     <div>
                         <span className="text-blue-600">Web sales</span>
-                        <span className="ml-2 font-semibold">1,304%</span>
+                        <span className="ml-2 font-semibold">{chartData[chartData.length - 1].web}</span>
                     </div>
                     <div>
                         <span className="text-blue-300">Offline selling</span>
-                        <span className="ml-2 font-semibold">473%</span>
+                        <span className="ml-2 font-semibold">{chartData[chartData.length - 1].offline}</span>
                     </div>
                 </div>
             </CardContent>
