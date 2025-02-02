@@ -6,7 +6,7 @@ export function Sidebar() {
     return (
         <div className="w-[240px] h-screen bg-[#F8FAFC] border-r flex flex-col">
             <div className="p-6">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                     <ChevronLeft className="h-5 w-5" />
                     <span className="font-semibold">Salesway</span>
                 </div>
@@ -16,12 +16,12 @@ export function Sidebar() {
                 <div className="space-y-1">
                     <Link
                         href="/settings"
-                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+                        className="flex items-center gap-4 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
                     >
                         <Settings size={18} />
                         Settings
                     </Link>
-                    <Link href="/team" className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md">
+                    <Link href="/team" className="flex items-center gap-4 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md">
                         <Users size={18} />
                         Team
                     </Link>
@@ -31,31 +31,31 @@ export function Sidebar() {
             <div className="px-3 py-2">
                 <p className="px-3 text-xs font-semibold text-gray-400 mb-2">MENU</p>
                 <div className="space-y-1">
-                    <Link href="/dashboard" className="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-md">
-                        <LayoutDashboard size={18} />
+                    <Link href="/dashboard" className="flex items-center gap-4 px-3 py-2 bg-white shadow-sm text-black hover:bg-blue font-semibold rounded-md">
+                        <LayoutDashboard size={18} color="#2090ba" fill="#2090ba" />
                         Dashboard
                     </Link>
                     <Link
                         href="/campaigns"
-                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+                        className="flex items-center gap-4 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
                     >
                         <LineChart size={18} />
                         Campaigns
                     </Link>
-                    <Link href="/flows" className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md">
+                    <Link href="/flows" className="flex items-center gap-4 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md">
                         <Share2 size={18} />
                         Flows
                     </Link>
                     <Link
                         href="/integrations"
-                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+                        className="flex items-center gap-4 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
                     >
                         <Grid3X3 size={18} />
                         Integrations
                     </Link>
                     <Link
                         href="/customers"
-                        className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+                        className="flex items-center gap-4 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
                     >
                         <Users2 size={18} />
                         Customers
@@ -63,8 +63,8 @@ export function Sidebar() {
                 </div>
             </div>
 
-            <div className="mt-auto p-4 border-t">
-                <div className="flex items-center gap-3">
+            <div className="mt-auto p-4">
+                <div className="flex items-center gap-4">
                     <Avatar>
                         <AvatarImage src="https://avatars.githubusercontent.com/u/96204332?v=4" alt="Shivam Kumar" />
                         <AvatarFallback>SK</AvatarFallback>
