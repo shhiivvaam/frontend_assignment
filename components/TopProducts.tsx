@@ -1,38 +1,35 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
+import type { ProductData } from "@/lib/types"
 
-const products = [
+const products: ProductData[] = [
     {
-        name: "Camera Mi 360°",
-        icon: "/placeholder.svg?height=32&width=32",
+        name: "Camera Mi 360",
         soldAmount: 432,
         unitPrice: 120,
-        revenue: 51840,
+        revenue: 51320,
         rating: 4.81,
     },
     {
-        name: "Massage Gun",
-        icon: "/placeholder.svg?height=32&width=32",
+        name: "Message Gun",
         soldAmount: 120,
-        unitPrice: 112,
-        revenue: 25440,
+        unitPrice: 60,
+        revenue: 23901,
         rating: 3.44,
     },
     {
-        name: "Vacuum-Mop 2 Pro",
-        icon: "/placeholder.svg?height=32&width=32",
-        soldAmount: 221,
-        unitPrice: 320,
-        revenue: 15123,
-        rating: 3.22,
+        name: "Redmi Note 9",
+        soldAmount: 190,
+        unitPrice: 87.6,
+        revenue: 87211,
+        rating: 2.5,
     },
     {
-        name: "Vacuum-Mop 2",
-        icon: "/placeholder.svg?height=32&width=32",
-        soldAmount: 223,
-        unitPrice: 234,
-        revenue: 32812,
-        rating: 3.0,
+        name: "One Plus Nord",
+        soldAmount: 140,
+        unitPrice: 24.1,
+        revenue: 29809,
+        rating: 4.65,
     },
 ]
 
@@ -59,13 +56,7 @@ export function TopProducts() {
                             <tr key={product.name} className="border-b last:border-b-0">
                                 <td className="py-4">
                                     <div className="flex items-center gap-3">
-                                        <Image
-                                            src={product.icon || "/placeholder.svg"}
-                                            alt={product.name}
-                                            width={32}
-                                            height={32}
-                                            className="rounded-full"
-                                        />
+                                        <Image src="/placeholder.svg" alt={product.name} width={32} height={32} className="rounded-full" />
                                         <span className="font-medium">{product.name}</span>
                                     </div>
                                 </td>

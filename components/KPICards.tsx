@@ -1,9 +1,14 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react"
+import { fetchKPIData } from "@/lib/api"
+import type { KPIData } from "@/lib/types"
 
 interface KPICardProps {
     title: string
-    value: string
+    value: string | number
     change: number
     prefix?: string
 }
@@ -34,11 +39,30 @@ function KPICard({ title, value, change, prefix = "" }: KPICardProps) {
 }
 
 export function KPICards() {
+    const [data, setData] = useState<KPIData | null>(null)
+    const [error, setError] = useState("")
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await fetchKPIData()
+                setData(result)
+            } catch (err) {
+                setError("Failed to load KPI data")
+            }
+        }
+
+        fetchData()
+    }, [])
+
+    if (error) return <div className="text-red-500">{error}</div>
+    if (!data) return <div>Loading...</div>
+
     return (
         <div className="grid grid-cols-3 gap-4">
-            <KPICard title="Purchases" value="4,294" change={32} />
-            <KPICard title="Revenue" value="322.3k" change={49} prefix="$" />
-            <KPICard title="Refunds" value="8.2k" change={-7} prefix="$" />
+            <KPICard title="Purchases" value={data.purchases.toLocaleString()} change={32} />
+            <KPICard title="Revenue" value={(data.revenue / 1000).toFixed(1) + "k"} change={49} prefix="$" />
+            <KPICard title="Refunds" value={(data.refunds / 1000).toFixed(1) + "k"} change={-7} prefix="$" />
         </div>
     )
 }

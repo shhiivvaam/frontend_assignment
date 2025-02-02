@@ -2,16 +2,16 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
-
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
+import type { MonthlyData } from "@/lib/types"
 
-const data = [
-    { month: "Jan", thisYear: 7000, lastYear: 3000 },
-    { month: "Feb", thisYear: 10000, lastYear: 8000 },
-    { month: "Mar", thisYear: 6000, lastYear: 3000 },
-    { month: "Apr", thisYear: 20000, lastYear: 16000 },
-    { month: "May", thisYear: 15000, lastYear: 8000 },
-    { month: "Jun", thisYear: 6000, lastYear: 4000 },
+const data: MonthlyData[] = [
+    { month: "Jan", lastYear: 5000, thisYear: 6000 },
+    { month: "Feb", lastYear: 10000, thisYear: 2000 },
+    { month: "Mar", lastYear: 20000, thisYear: 40000 },
+    { month: "Apr", lastYear: 32000, thisYear: 21000 },
+    { month: "May", lastYear: 12000, thisYear: 9200 },
+    { month: "Jun", lastYear: 13000, thisYear: 8700 },
 ]
 
 export function ComparisonChart() {
@@ -38,8 +38,8 @@ export function ComparisonChart() {
                                 tickFormatter={(value) => `${value / 1000}k`}
                             />
                             <Tooltip />
-                            <Bar dataKey="lastYear" fill="#E3F2FD" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                            <Bar dataKey="thisYear" fill="#2196F3" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                            <Bar dataKey="lastYear" name="Last year" fill="#E3F2FD" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                            <Bar dataKey="thisYear" name="This year" fill="#2196F3" radius={[4, 4, 0, 0]} maxBarSize={40} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
