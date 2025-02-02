@@ -1,7 +1,8 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ChevronDown } from "lucide-react"
+
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
 
 const data = [
@@ -15,30 +16,30 @@ const data = [
 
 export function ComparisonChart() {
     return (
-        <Card className="border-0 shadow-sm">
+        <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-lg font-semibold">Comparison</CardTitle>
-                <Select defaultValue="6months">
-                    <SelectTrigger className="w-[140px]">
-                        <SelectValue placeholder="Select period" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="6months">6 months</SelectItem>
-                        <SelectItem value="12months">12 months</SelectItem>
-                        <SelectItem value="ytd">Year to date</SelectItem>
-                    </SelectContent>
-                </Select>
+                <CardTitle className="text-base font-semibold">Comparison</CardTitle>
+                <button className="inline-flex items-center gap-1 text-sm border rounded-lg px-3 py-1.5">
+                    6 months
+                    <ChevronDown className="w-4 h-4" />
+                </button>
             </CardHeader>
             <CardContent>
                 <div className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                            <XAxis dataKey="month" />
-                            <YAxis />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                            <XAxis dataKey="month" axisLine={false} tickLine={false} fontSize={12} tickMargin={10} />
+                            <YAxis
+                                axisLine={false}
+                                tickLine={false}
+                                fontSize={12}
+                                tickMargin={10}
+                                tickFormatter={(value) => `${value / 1000}k`}
+                            />
                             <Tooltip />
-                            <Bar dataKey="lastYear" fill="#E3F2FD" />
-                            <Bar dataKey="thisYear" fill="#2196F3" />
+                            <Bar dataKey="lastYear" fill="#E3F2FD" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                            <Bar dataKey="thisYear" fill="#2196F3" radius={[4, 4, 0, 0]} maxBarSize={40} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -46,4 +47,3 @@ export function ComparisonChart() {
         </Card>
     )
 }
-

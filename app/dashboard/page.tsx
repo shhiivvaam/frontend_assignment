@@ -5,6 +5,7 @@ import { ComparisonChart } from "@/components/ComparisonChart"
 import { CustomersChart } from "@/components/CustomersChart"
 import { TopProducts } from "@/components/TopProducts"
 import { CommunityFeedback } from "@/components/CommunityFeedback"
+import { ChevronDown } from "lucide-react"
 
 export default function DashboardPage() {
     return (
@@ -14,12 +15,12 @@ export default function DashboardPage() {
                 <div className="p-8">
                     <div className="flex items-center justify-between mb-8">
                         <h1 className="text-2xl font-bold">Dashboard</h1>
-                        <div className="flex items-center gap-4">
-                            <span className="text-sm text-gray-500">Compare to</span>
-                            <select className="border rounded-md px-3 py-1.5 text-sm">
-                                <option>Last year</option>
-                                <option>Previous year</option>
-                            </select>
+                        <div className="flex items-center gap-3 text-sm">
+                            <span className="text-gray-500">Compare to</span>
+                            <button className="inline-flex items-center gap-1 border rounded-lg px-3 py-1.5">
+                                Last year
+                                <ChevronDown className="w-4 h-4" />
+                            </button>
                         </div>
                     </div>
 
