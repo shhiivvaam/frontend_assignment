@@ -4,6 +4,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useEffect, useState } from "react"
 import { fetchSentimentData } from "@/lib/api"
 import type { SentimentData } from "@/lib/types"
+import { Skeleton } from "@/components/ui/skeleton"
+
+function CommunityFeedbackSkeleton() {
+    return (
+        <Card>
+            <CardHeader>
+                <Skeleton className="h-6 w-1/3" />
+            </CardHeader>
+            <CardContent>
+                <Skeleton className="h-6 w-1/2 mb-6" />
+                <div className="space-y-6">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i}>
+                            <div className="flex items-center justify-between mb-2">
+                                <Skeleton className="h-4 w-1/4" />
+                                <Skeleton className="h-4 w-1/6" />
+                            </div>
+                            <Skeleton className="h-2 w-full" />
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
 export function CommunityFeedback() {
 
@@ -24,8 +49,8 @@ export function CommunityFeedback() {
     }, [])
 
     if (error) return <div className="text-red-500">{error}</div>
-    if (!data) return <div>Loading...</div>
-
+    // if (!data) return <div>Loading...</div>
+    if (!data) return <CommunityFeedbackSkeleton />
 
     return (
         <Card>

@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
 import type { MonthlyData } from "@/lib/types"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useState, useEffect } from "react"
 
 const data: MonthlyData[] = [
     { month: "Jan", lastYear: 5000, thisYear: 6000 },
@@ -14,7 +16,31 @@ const data: MonthlyData[] = [
     { month: "Jun", lastYear: 13000, thisYear: 8700 },
 ]
 
+function ComparisonChartSkeleton() {
+    return (
+        <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+                <Skeleton className="h-6 w-1/4" />
+                <Skeleton className="h-8 w-1/6" />
+            </CardHeader>
+            <CardContent>
+                <Skeleton className="h-[300px] w-full" />
+            </CardContent>
+        </Card>
+    )
+}
+
 export function ComparisonChart() {
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        // Simulate data loading
+        const timer = setTimeout(() => setLoading(false), 1000)
+        return () => clearTimeout(timer)
+    }, [])
+
+    if (loading) return <ComparisonChartSkeleton />
+
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -47,3 +73,4 @@ export function ComparisonChart() {
         </Card>
     )
 }
+

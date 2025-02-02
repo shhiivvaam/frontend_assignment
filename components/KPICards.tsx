@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react"
 import { fetchKPIData } from "@/lib/api"
 import type { KPIData } from "@/lib/types"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface KPICardProps {
     title: string
@@ -38,6 +39,18 @@ function KPICard({ title, value, change, prefix = "" }: KPICardProps) {
     )
 }
 
+function KPICardSkeleton() {
+    return (
+        <Card>
+            <CardContent className="pt-6">
+                <Skeleton className="h-4 w-1/2 mb-2" />
+                <Skeleton className="h-8 w-3/4 mb-2" />
+                <Skeleton className="h-4 w-1/4" />
+            </CardContent>
+        </Card>
+    )
+}
+
 export function KPICards() {
     const [data, setData] = useState<KPIData | null>(null)
     const [error, setError] = useState("")
@@ -56,7 +69,16 @@ export function KPICards() {
     }, [])
 
     if (error) return <div className="text-red-500">{error}</div>
-    if (!data) return <div>Loading...</div>
+    // if (!data) return <div>Loading...</div>
+    if (!data) {
+        return (
+            <div className="grid grid-cols-3 gap-4">
+                <KPICardSkeleton />
+                <KPICardSkeleton />
+                <KPICardSkeleton />
+            </div>
+        )
+    }
 
     return (
         <div className="grid grid-cols-3 gap-4">

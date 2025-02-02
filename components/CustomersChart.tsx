@@ -5,6 +5,7 @@ import { fetchTimeSeriesData } from "@/lib/api"
 import type { TimeSeriesData } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
+import { Skeleton } from "@/components/ui/skeleton"
 
 // const data = [
 //     { month: "Jan", web: 2000, offline: 1000 },
@@ -15,8 +16,24 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tool
 //     { month: "Jun", web: 8000, offline: 3500 },
 // ]
 
-export function CustomersChart() {
+function CustomersChartSkeleton() {
+    return (
+        <Card className="border-0 shadow-sm">
+            <CardHeader>
+                <Skeleton className="h-6 w-1/3" />
+            </CardHeader>
+            <CardContent>
+                <Skeleton className="h-[200px] w-full" />
+                <div className="mt-4 flex items-center justify-between">
+                    <Skeleton className="h-4 w-1/4" />
+                    <Skeleton className="h-4 w-1/4" />
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
+export function CustomersChart() {
     const [data, setData] = useState<TimeSeriesData[]>([])
     const [error, setError] = useState("")
 
@@ -34,9 +51,9 @@ export function CustomersChart() {
     }, [])
 
     if (error) return <div className="text-red-500">{error}</div>
-    if (!data.length) return <div>Loading...</div>
+    if (!data.length) return <CustomersChartSkeleton />
 
-    // chart k lia data
+    // chart k lia data 
     const chartData = data.map((item) => ({
         date: new Date(item.date2).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         web: item.unique_count,

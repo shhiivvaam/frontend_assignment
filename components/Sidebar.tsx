@@ -66,11 +66,11 @@ export function Sidebar() {
             <div className="mt-auto p-4 border-t">
                 <div className="flex items-center gap-3">
                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" alt="Tom Wang" />
-                        <AvatarFallback>TW</AvatarFallback>
+                        <AvatarImage src="https://avatars.githubusercontent.com/u/96204332?v=4" alt="Shivam Kumar" />
+                        <AvatarFallback>SK</AvatarFallback>
                     </Avatar>
                     <div>
-                        <p className="text-sm font-medium">Tom Wang</p>
+                        <p className="text-sm font-medium">Shivam Kumar</p>
                     </div>
                 </div>
             </div>
