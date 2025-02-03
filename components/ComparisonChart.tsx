@@ -30,15 +30,47 @@ function ComparisonChartSkeleton() {
     )
 }
 
-export function ComparisonChart() {
-    const [loading, setLoading] = useState(true)
+export function ComparisonChart({ tableName }: { tableName: string }) {
+
+    const [data, setData] = useState<MonthlyData[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 1000)
-        return () => clearTimeout(timer)
-    }, [])
+        async function fetchData() {
+            try {
+                const response = await fetch(`/api/fetchData?table=${tableName}`);
+                const fetchedData = await response.json();
 
-    if (loading) return <ComparisonChartSkeleton />
+                if (!response.ok) {
+                    throw new Error(fetchedData.error || "Error fetching data");
+                }
+
+                const formattedData: MonthlyData[] = fetchedData.map((row: any) => ({
+                    month: row.Month,
+                    lastYear: Number(row.Last_year),
+                    thisYear: Number(row.This_year),
+                }));
+
+                setData(formattedData);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        fetchData();
+    }, [tableName]);
+
+    if (loading) return <ComparisonChartSkeleton />;
+
+    // const [loading, setLoading] = useState(true)
+
+    // useEffect(() => {
+    //     const timer = setTimeout(() => setLoading(false), 1000)
+    //     return () => clearTimeout(timer)
+    // }, [])
+
+    // if (loading) return <ComparisonChartSkeleton />
 
     return (
         <div className="space-y-4">

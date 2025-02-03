@@ -27,7 +27,7 @@ export default function DashboardPage() {
 
                         <div className="space-y-8">
                             <KPICards />
-                            <ComparisonChart />
+                            <ComparisonChart tableName="sheet1" />
                             <TopProducts />
                         </div>
                     </div>
