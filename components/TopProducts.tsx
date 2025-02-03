@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
 import type { ProductData } from "@/lib/types"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 
 const products: ProductData[] = [
     {
@@ -64,13 +65,18 @@ export function TopProducts() {
                                 <td className="py-4">
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                                            <Image
-                                                src={product.image || "/placeholder.svg"}
+                                            {/* <Image
+                                                src="/image.png"
                                                 alt={product.name}
                                                 width={20}
                                                 height={20}
                                                 className="opacity-75"
-                                            />
+                                            /> */}
+                                            <Avatar>
+                                                <AvatarImage src="https://avatars.githubusercontent.com/u/96204332?v=4" alt="Shivam Kumar" />
+                                                {/* <AvatarImage src="https://instagram.fdel1-4.fna.fbcdn.net/v/t51.2885-19/475995017_407410122418457_4777328028643294063_n.jpg?_nc_ht=instagram.fdel1-4.fna.fbcdn.net&_nc_cat=105&_nc_ohc=Wb9PpQjp9SoQ7kNvgHOWGfU&_nc_gid=709365692d6045f79cfd69a641133f70&edm=ALGbJPMBAAAA&ccb=7-5&oh=00_AYD64k5-aDnlTTvoPSw2E0R9u5CZKcbnRmPISOsutuP3cA&oe=67A6F819&_nc_sid=7d3ac5" alt="Shivam Kumar" /> */}
+                                                <AvatarFallback>SK</AvatarFallback>
+                                            </Avatar>
                                         </div>
                                         <span className="text-black font-semibold">{product.name}</span>
                                     </div>
