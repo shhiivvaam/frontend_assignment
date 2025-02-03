@@ -20,13 +20,15 @@ export default function LoginPage() {
         setLoading(true)
 
         try {
-            const token = await login({ username, password })
-            if (!token) {
+            const res = await login({ username, password })
+
+            if (!res) {
                 throw new Error("Login failed");
             }
             console.log("login successful");
             router.push("/dashboard")
         } catch (err) {
+            console.error("Login error:", err)
             setError("Invalid credentials")
         } finally {
             setLoading(false)

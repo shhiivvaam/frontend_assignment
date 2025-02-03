@@ -26,17 +26,28 @@ export async function login(credentials: Partial<LoginCredentials>) {
         body: JSON.stringify(payload),
     })
 
-    if (!response.ok) {
-        console.log("login failed");
-        return null;
-        // throw new Error("Login failed")
-    }
+    // if (!response.ok) {
+    //     console.log("login failed");
+    //     return null;
+    //     // throw new Error("Login failed")
+    // }
 
-    const token = uuidv4();
-    localStorage.setItem("auth_token", token)
-    document.cookie = `auth_token=${token}; path=/;`
-    // cookies.set("auth_token", token, { path: "/" })
-    return token
+    const data = await response.json();
+
+    if (data.message == "Successfully Logged in") {
+        const token = uuidv4();
+        localStorage.setItem("auth_token", token)
+        document.cookie = `auth_token=${token}; path=/;`
+        // cookies.set("auth_token", token, { path: "/" })
+
+        const res = {
+            message: data.message,
+            token,
+            user: payload,
+        }
+        return res;
+    } else return null;
+
 }
 
 export function getAuthHeader() {
