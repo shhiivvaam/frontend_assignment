@@ -32,11 +32,10 @@ export default function DashboardPage() {
                         </div>
                     </div>
 
-                    {/* Right Sidebar */}
                     <div className="mt-2 pl-2 mr-2 max-w-sm">
                         <div className="space-y-2">
                             <PerformanceScore />
-                            <CustomersChart />
+                            <CustomersChart tableName="sheet3" />
                             <CommunityFeedback />
                         </div>
                     </div>

@@ -7,14 +7,14 @@ import type { MonthlyData } from "@/lib/types"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useState, useEffect } from "react"
 
-const data: MonthlyData[] = [
-    { month: "Jan", lastYear: 5000, thisYear: 6000 },
-    { month: "Feb", lastYear: 10000, thisYear: 2000 },
-    { month: "Mar", lastYear: 20000, thisYear: 40000 },
-    { month: "Apr", lastYear: 32000, thisYear: 21000 },
-    { month: "May", lastYear: 12000, thisYear: 9200 },
-    { month: "Jun", lastYear: 13000, thisYear: 8700 },
-]
+// const data: MonthlyData[] = [
+//     { month: "Jan", lastYear: 5000, thisYear: 6000 },
+//     { month: "Feb", lastYear: 10000, thisYear: 2000 },
+//     { month: "Mar", lastYear: 20000, thisYear: 40000 },
+//     { month: "Apr", lastYear: 32000, thisYear: 21000 },
+//     { month: "May", lastYear: 12000, thisYear: 9200 },
+//     { month: "Jun", lastYear: 13000, thisYear: 8700 },
+// ]
 
 function ComparisonChartSkeleton() {
     return (

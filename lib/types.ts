@@ -24,6 +24,12 @@ export interface TimeSeriesData {
     cumulative_tweets: number
 }
 
+export interface SalesCountData {
+    date: string
+    web_sales: number
+    offline_sales: number
+}
+
 export interface SentimentData {
     negative: number
     positive: number

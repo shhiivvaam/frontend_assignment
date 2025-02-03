@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { fetchTimeSeriesData } from "@/lib/api"
-import type { TimeSeriesData } from "@/lib/types"
+import type { TimeSeriesData, SalesCountData } from "@/lib/types"
 import { Card, CardContent } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -31,37 +31,51 @@ function CustomersChartSkeleton() {
     )
 }
 
-export function CustomersChart() {
-    const [data, setData] = useState<TimeSeriesData[]>([])
+export function CustomersChart({ tableName }: { tableName: string }) {
+    const [chartData, setChartData] = useState<TimeSeriesData[]>([])
+    const [salesData, setSalesData] = useState<SalesCountData[]>([])
     const [error, setError] = useState("")
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchChartData = async () => {
             try {
                 const result = await fetchTimeSeriesData()
-                setData(result)
+                setChartData(result)
             } catch (err) {
                 setError("Failed to load time series data")
             }
         }
 
-        fetchData()
-    }, [])
+        const fetchSalesData = async () => {
+            try {
+                const response = await fetch(`/api/fetchData?table=${tableName}`)
+                if (!response.ok) throw new Error("Failed to fetch sales data")
+                const result = await response.json()
+                setSalesData(result)
+            } catch (err) {
+                setError("Failed to load sales data")
+            }
+        }
+
+        fetchChartData()
+        fetchSalesData()
+    }, [tableName])
 
     if (error) return <div className="text-red-500">{error}</div>
-    if (!data.length) return <CustomersChartSkeleton />
+    if (!chartData.length || !salesData.length) return <CustomersChartSkeleton />
 
-    const chartData = data.map((item) => ({
-        date: new Date(item.date2).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        web: item.unique_count,
-        offline: item.cumulative_tweets - item.unique_count,
+    const formattedChartData = chartData.map((item, index) => ({
+        // date: new Date(item.date2).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        index,
+        unique_count: item.unique_count,
+        cumulative_tweets: item.cumulative_tweets,
     }))
 
-    // growth ki percentage
-    const firstWeb = chartData[0].web
-    const lastWeb = chartData[chartData.length - 1].web
-    const firstOffline = chartData[0].offline
-    const lastOffline = chartData[chartData.length - 1].offline
+    // growth ki presentage
+    const firstWeb = Number.parseInt(salesData[0].web_sales.toString())
+    const lastWeb = Number.parseInt(salesData[salesData.length - 1].web_sales.toString())
+    const firstOffline = Number.parseInt(salesData[0].offline_sales.toString())
+    const lastOffline = Number.parseInt(salesData[salesData.length - 1].offline_sales.toString())
 
     const webGrowth = (((lastWeb - firstWeb) / firstWeb) * 100).toFixed(0)
     const offlineGrowth = (((lastOffline - firstOffline) / firstOffline) * 100).toFixed(0)
@@ -72,24 +86,35 @@ export function CustomersChart() {
                 <h2 className="text-xl font-semibold mb-6">Customers by device</h2>
                 <div className="h-[180px] mb-6">
                     <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#E5E7EB" />
-                            <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "#9CA3AF", fontSize: 12 }} />
+                        <LineChart data={formattedChartData}>
+                            <CartesianGrid strokeDasharray="2 2" horizontal={true} vertical={false} stroke="#E5E7EB" />
+                            {/* <XAxis axisLine={false} tickLine={false} tick={{ fill: "#9CA3AF", fontSize: 12 }} /> */}
+                            <XAxis dataKey="index" axisLine={false} tickLine={false} tick={false} />
                             <YAxis
                                 axisLine={false}
                                 tickLine={false}
                                 tick={{ fill: "#9CA3AF", fontSize: 12 }}
-                                tickFormatter={(value) => `${value / 1000}k`}
+                                tickCount={3}
+                                domain={[0, 800]}
+                                ticks={[0, 400, 800]}
+                                tickFormatter={(value) => `${value / 100}k`}
                             />
                             <Tooltip />
-                            <Line type="monotone" dataKey="web" stroke="#3B82F6" strokeWidth={2} dot={false} name="Web sales" />
                             <Line
                                 type="monotone"
-                                dataKey="offline"
+                                dataKey="unique_count"
+                                stroke="#3B82F6"
+                                strokeWidth={2}
+                                dot={false}
+                                name="Unique Count"
+                            />
+                            <Line
+                                type="monotone"
+                                dataKey="cumulative_tweets"
                                 stroke="#93C5FD"
                                 strokeWidth={2}
                                 dot={false}
-                                name="Offline selling"
+                                name="Cumulative Tweets"
                             />
                         </LineChart>
                     </ResponsiveContainer>
@@ -99,7 +124,7 @@ export function CustomersChart() {
                         <div className="flex items-center gap-2">
                             <span className="text-gray-500">Web sales</span>
                             <div className="w-3 h-3 rounded-sm bg-blue-500" />
-                        </div>  
+                        </div>
                         <span className="font-semibold ml-1">{webGrowth}%</span>
                     </div>
                     <div className="flex flex-col gap-1">
