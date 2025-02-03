@@ -8,7 +8,7 @@ export function Sidebar() {
             <div className="p-6">
                 <div className="flex items-center gap-4">
                     <ChevronLeft className="h-5 w-5" />
-                    <span className="font-semibold">Salesway</span>
+                    <span className="font-extrabold">Salesway</span>
                 </div>
             </div>
 
@@ -32,7 +32,7 @@ export function Sidebar() {
                 <p className="px-3 text-xs font-semibold text-gray-400 mb-2">MENU</p>
                 <div className="space-y-1">
                     <Link href="/dashboard" className="flex items-center gap-4 px-3 py-2 bg-white shadow-sm text-black hover:bg-blue font-semibold rounded-md">
-                        <LayoutDashboard size={18} color="#2090ba" fill="#2090ba" />
+                        <LayoutDashboard size={18} color="#2196F3" fill="#2196F3" />
                         Dashboard
                     </Link>
                     <Link

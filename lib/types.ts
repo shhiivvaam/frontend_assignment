@@ -42,5 +42,6 @@ export interface ProductData {
     unitPrice: number
     revenue: number
     rating: number
+    image: string
 }
 
