@@ -5,8 +5,8 @@ const pg = require('pg');
 const url = require('url');
 require("dotenv").config();
 
-// const filePath = "./data/data.xlsx";
-const filePath = "./data/ComparisonSheet.xlsx";
+const filePath = "./data/data.xlsx";
+// const filePath = "./data/ComparisonSheet.xlsx";
 // const filePath = "./data/CustomersDeviceSheet.xlsx";
 // const filePath = "./data/ProductsSheet.xlsx";
 const workbook = xlsx.readFile(filePath);
@@ -63,9 +63,14 @@ async function insertData() {
     // connectAndQuery();
     console.log("Connected to Database✅");
 
+    let sheetCounter = 1;
+
     for (const sheetName of sheets) {
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = xlsx.utils.sheet_to_json(worksheet);
+
+        let currentSheetName = `sheet${sheetCounter}`;
+        sheetCounter++;
 
         console.log(`Inserting data into table: ${sheetName}`);
 
@@ -74,15 +79,15 @@ async function insertData() {
             const values = Object.values(row);
 
             await client.query(`
-        CREATE TABLE IF NOT EXISTS ${sheetName} (
-            ${keys.map((key) => `"${key}" TEXT`).join(",")}
-        );
-    `);
+                CREATE TABLE IF NOT EXISTS ${currentSheetName} (
+                    ${keys.map((key) => `"${key}" TEXT`).join(",")}
+                );
+            `);
 
             const query = `
-        INSERT INTO ${sheetName} (${keys.map((key) => `"${key}"`).join(",")})
-        VALUES (${values.map((_, i) => `$${i + 1}`).join(",")});
-    `;
+                INSERT INTO ${currentSheetName} (${keys.map((key) => `"${key}"`).join(",")})
+                VALUES (${values.map((_, i) => `$${i + 1}`).join(",")});
+            `;
 
             await client.query(query, values);
         }

@@ -1,44 +1,143 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
 import type { ProductData } from "@/lib/types"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useState, useEffect } from "react";
 
-const products: ProductData[] = [
-    {
-        name: "Camera Mi 360°",
-        soldAmount: 432,
-        unitPrice: 120,
-        revenue: 51840,
-        rating: 4.81,
-        image: "/camera.png",
-    },
-    {
-        name: "Massage Gun",
-        soldAmount: 120,
-        unitPrice: 112,
-        revenue: 25440,
-        rating: 3.44,
-        image: "/massage.png",
-    },
-    {
-        name: "Vacuum-Mop 2 Pro",
-        soldAmount: 221,
-        unitPrice: 320,
-        revenue: 15123,
-        rating: 3.22,
-        image: "/vacuum-pro.png",
-    },
-    {
-        name: "Vacuum-Mop 2",
-        soldAmount: 223,
-        unitPrice: 234,
-        revenue: 32812,
-        rating: 3.0,
-        image: "/vacuum.png",
-    },
-]
+// const products: ProductData[] = [
+//     {
+//         name: "Camera Mi 360°",
+//         soldAmount: 432,
+//         unitPrice: 120,
+//         revenue: 51840,
+//         rating: 4.81,
+//         image: "/camera.png",
+//     },
+//     {
+//         name: "Massage Gun",
+//         soldAmount: 120,
+//         unitPrice: 112,
+//         revenue: 25440,
+//         rating: 3.44,
+//         image: "/massage.png",
+//     },
+//     {
+//         name: "Vacuum-Mop 2 Pro",
+//         soldAmount: 221,
+//         unitPrice: 320,
+//         revenue: 15123,
+//         rating: 3.22,
+//         image: "/vacuum-pro.png",
+//     },
+//     {
+//         name: "Vacuum-Mop 2",
+//         soldAmount: 223,
+//         unitPrice: 234,
+//         revenue: 32812,
+//         rating: 3.0,
+//         image: "/vacuum.png",
+//     },
+// ]
 
-export function TopProducts() {
+function TopProductsChartSkeleton() {
+    return (
+        <div className="w-full">
+            <div className="flex flex-row items-center justify-between mb-6">
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-8 w-24 rounded-3xl" />
+            </div>
+            <div>
+                <table className="w-full">
+                    <thead>
+                        <tr className="text-left text-sm font-semibold border-b-2 border-gray-100">
+                            <th className="pb-4 w-1/3">
+                                <Skeleton className="h-4 w-20" />
+                            </th>
+                            <th className="pb-4 w-1/6">
+                                <Skeleton className="h-4 w-20" />
+                            </th>
+                            <th className="pb-4 w-1/6">
+                                <Skeleton className="h-4 w-20" />
+                            </th>
+                            <th className="pb-4 w-1/6">
+                                <Skeleton className="h-4 w-20" />
+                            </th>
+                            <th className="pb-4 w-1/6">
+                                <Skeleton className="h-4 w-20" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Array(4)
+                            .fill(0)
+                            .map((_, index) => (
+                                <tr key={index}>
+                                    <td className="py-4">
+                                        <div className="flex items-center gap-3">
+                                            <Skeleton className="w-8 h-8 rounded-full" />
+                                            <Skeleton className="h-4 w-24" />
+                                        </div>
+                                    </td>
+                                    <td className="py-4">
+                                        <Skeleton className="h-4 w-16" />
+                                    </td>
+                                    <td className="py-4">
+                                        <Skeleton className="h-4 w-16" />
+                                    </td>
+                                    <td className="py-4">
+                                        <Skeleton className="h-4 w-24" />
+                                    </td>
+                                    <td className="py-4">
+                                        <Skeleton className="h-4 w-16" />
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+}
+
+export function TopProducts({ tableName }: { tableName: string }) {
+
+    const [data, setData] = useState<ProductData[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await fetch(`/api/fetchData?table=${tableName}`);
+                const fetchedData = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(fetchedData.error || "Error fetching data");
+                }
+
+                const formattedData: ProductData[] = fetchedData.map((row: any) => ({
+                    name: row.Product,
+                    soldAmount: row.sold_amount,
+                    unitPrice: row.unit_price,
+                    revenue: row.revenue,
+                    rating: row.rating,
+                    image: row.image || null
+                }));
+
+                setData(formattedData);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        fetchData();
+    }, [tableName]);
+
+    if (loading) return <TopProductsChartSkeleton />;
+
     return (
         <div className="w-full">
             <div className="flex flex-row items-center justify-between mb-6">
@@ -60,7 +159,7 @@ export function TopProducts() {
                     </thead>
                     {/* <div className="h-[10px] w-full bg-gray-100"></div> */}
                     <tbody>
-                        {products.map((product) => (
+                        {data.map((product) => (
                             <tr key={product.name}>
                                 <td className="py-4">
                                     <div className="flex items-center gap-3">
@@ -92,7 +191,8 @@ export function TopProducts() {
                                                 fill="currentColor"
                                             />
                                         </svg>
-                                        {product.rating.toFixed(2)}
+                                        {product.rating}
+                                        {/* {product.rating.toFixed(2)} */}
                                     </div>
                                 </td>
                             </tr>

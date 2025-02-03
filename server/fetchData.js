@@ -5,7 +5,8 @@ const pg = require('pg');
 const url = require('url');
 require("dotenv").config();
 
-const filePath = "./data/ComparisonSheet.xlsx";
+const filePath = "./data/data.xlsx";
+// const filePath = "./data/ComparisonSheet.xlsx";
 // const filePath = "./data/CustomersDeviceSheet.xlsx";
 // const filePath = "./data/ProductsSheet.xlsx";
 const workbook = xlsx.readFile(filePath);
@@ -62,10 +63,28 @@ async function fetchData() {
         await client.connect();
         console.log("Connected to Database ✅");
 
-        for (const sheetName of sheets) {
-            console.log(`Fetching data from table: ${sheetName}`);
+        let sheetCounter = 1;
 
-            const res = await client.query(`SELECT * FROM ${sheetName} LIMIT 10;`);
+        for (const _ of sheets) {
+            const tableName = `sheet${sheetCounter}`;
+            sheetCounter++;
+
+            console.log(`Fetching data from table: ${tableName}`);
+
+            const tableExistsQuery = `
+                SELECT EXISTS (
+                    SELECT FROM information_schema.tables 
+                    WHERE table_name = '${tableName}'
+                );
+            `;
+            const tableExists = await client.query(tableExistsQuery);
+            if (!tableExists.rows[0].exists) {
+                console.warn(`Table ${tableName} does not exist. Skipping...`);
+                continue;
+            }
+
+            // const res = await client.query(`SELECT * FROM ${sheetName} LIMIT 10;`);
+            const res = await client.query(`SELECT * FROM ${tableName} LIMIT 10;`);
             console.table(res.rows);
         }
     } catch (error) {
