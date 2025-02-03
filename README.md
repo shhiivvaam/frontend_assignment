@@ -1,37 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js + PostgreSQL Data Visualization
 
-## Getting Started
+![1738621577312](image/README/1738621577312.png)
 
-First, run the development server:
+![1738621604890](image/README/1738621604890.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+![1738621799814](image/README/1738621799814.mp4)
+
+## Overview
+
+This project is a Next.js application that integrates with a PostgreSQL database to fetch and visualize data. It includes:
+
+1. A REST API for fetching table data from the database.
+2. A frontend that dynamically renders a comparison chart using Recharts.
+3. A secure database connection using SSL authentication.
+
+## Features
+
+1. Fetches data from a PostgreSQL database.
+2. Dynamically displays data in a bar chart.
+3. Handles errors gracefully for invalid table names and database failures.
+4. Uses TypeScript for type safety and improved development experience.
+
+## Tech Stack
+
+* Next.js – Server-side rendering and API handling
+* PostgreSQL – Database for storing records
+* Recharts – Data visualization library for bar charts
+* TypeScript – Static typing for better maintainability
+* ShadCN Components – UI components for a modern design
+
+## Setup Instructions
+
+1️⃣ Clone the Repository
+
+```
+git clone https://github.com/shhiivvaam/frontend_assignment.git
+cd frontend_assignment
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2️⃣ Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3️⃣ Configure Environment Variables
 
-## Learn More
+Create a .env file in the root directory and add the following:
 
-To learn more about Next.js, take a look at the following resources:
+```
+DB_USER=your_db_user
+DB_HOST=your_db_host
+DB_NAME=your_db_name
+DB_PASS=your_db_password
+DB_PORT=your_db_port
+DB_URL=your_db_url
+DB_SSL_CA=yout_db_ssl_ca
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4️⃣ Run the Development Server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+npm run dev
+```
 
-## Deploy on Vercel
+Then open http://localhost:3000 in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API Endpoint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# frontend_assignment" 
+1. Fetch Data from Database
+
+* GET /api/fetchData?table=sheet{sheet_id}
+
+2. Query Params:
+
+* table (string) – Required, the table name to fetch data from.
+
+
+
+🛡️ Security Considerations
+
+## Uses SSL certificates for a secure database connection.
+
+1. Prevents SQL injection by using parameterized queries.
+2. Handles API errors gracefully with proper response statuses.
+
+```
+ThankYou
+```
+
+### `Shivam`
