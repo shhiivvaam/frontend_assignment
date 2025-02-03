@@ -54,14 +54,12 @@ export function CommunityFeedback() {
                 <h2 className="text-gray-500 font-semibold mb-1 text-sm">Community feedback</h2>
                 <h3 className="text-xl font-semibold mb-6">Mostly positive</h3>
 
-                {/* Stacked progress bar */}
                 <div className="h-2 w-full flex rounded-full overflow-hidden mb-4 gap-1">
                     <div className="bg-red-300 rounded-full" style={{ width: `${negativeWidth}%` }} />
                     <div className="bg-yellow-300 rounded-full" style={{ width: `${neutralWidth}%` }} />
                     <div className="bg-emerald-400 rounded-full" style={{ width: `${positiveWidth}%` }} />
                 </div>
 
-                {/* Labels */}
                 <div className="flex gap-2 font-semibold justify-start text-sm text-gray-500">
                     <div className="flex flex-col items-center gap-1">
                         <span>Negative</span>
