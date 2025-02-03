@@ -67,7 +67,7 @@ export function CustomersChart() {
     const offlineGrowth = (((lastOffline - firstOffline) / firstOffline) * 100).toFixed(0)
 
     return (
-        <Card className="rounded-3xl w-full">
+        <Card className="rounded-2xl w-full">
             <CardContent className="p-6">
                 <h2 className="text-xl font-semibold mb-6">Customers by device</h2>
                 <div className="h-[180px] mb-6">
@@ -95,19 +95,19 @@ export function CustomersChart() {
                     </ResponsiveContainer>
                 </div>
                 <div className="flex items-start gap-8 text-sm w-full font-semibold">
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             <span className="text-gray-500">Web sales</span>
-                            <div className="w-3 h-3 bg-blue-500" />
+                            <div className="w-3 h-3 rounded-sm bg-blue-500" />
                         </div>  
-                        <span className="font-semibold">{webGrowth}%</span>
+                        <span className="font-semibold ml-1">{webGrowth}%</span>
                     </div>
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             <span className="text-gray-500">Offline selling</span>
-                            <div className="w-3 h-3 bg-blue-300" />
+                            <div className="w-3 h-3 rounded-sm bg-blue-300" />
                         </div>
-                        <span className="font-semibold">{offlineGrowth}%</span>
+                        <span className="font-semibold ml-1">{offlineGrowth}%</span>
                     </div>
                 </div>
             </CardContent>

@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function Sidebar() {
     return (
-        <div className="w-[240px] h-screen bg-[#F8FAFC] border-r flex flex-col">
+        <div className="w-[240px] h-screen flex flex-col">
             <div className="p-6">
                 <div className="flex items-center gap-4">
                     <ChevronLeft className="h-5 w-5" />

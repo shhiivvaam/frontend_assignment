@@ -49,7 +49,7 @@ export function CommunityFeedback() {
     const negativeWidth = (data.negative / total) * 100
 
     return (
-        <Card className="rounded-3xl">
+        <Card className="rounded-2xl">
             <CardContent className="p-6">
                 <h2 className="text-gray-500 font-semibold mb-1 text-sm">Community feedback</h2>
                 <h3 className="text-xl font-semibold mb-6">Mostly positive</h3>

@@ -35,12 +35,14 @@ const products: ProductData[] = [
 
 export function TopProducts() {
     return (
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
+        <div className="w-full">
+            <div className="flex flex-row items-center justify-between">
                 <CardTitle className="text-base font-semibold">Top Products</CardTitle>
-                <button className="text-sm text-blue-600 font-medium hover:text-blue-700">Full results</button>
-            </CardHeader>
-            <CardContent className="px-6">
+                <button className="inline-flex items-center text-gray-500 font-bold gap-1 text-sm border rounded-3xl px-3 py-1.5">
+                    Full results
+                </button>
+            </div>
+            <div className="px-6">
                 <table className="w-full">
                     <thead>
                         <tr className="text-left border-b">
@@ -70,7 +72,7 @@ export function TopProducts() {
                         ))}
                     </tbody>
                 </table>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     )
 }

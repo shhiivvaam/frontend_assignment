@@ -34,7 +34,6 @@ export function ComparisonChart() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        // Simulate data loading
         const timer = setTimeout(() => setLoading(false), 1000)
         return () => clearTimeout(timer)
     }, [])
@@ -42,15 +41,15 @@ export function ComparisonChart() {
     if (loading) return <ComparisonChartSkeleton />
 
     return (
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-base font-semibold">Comparison</CardTitle>
-                <button className="inline-flex items-center gap-1 text-sm border rounded-lg px-3 py-1.5">
+        <div className="space-y-4">
+            <div className="flex flex-row items-center justify-between">
+                <div className="text-base font-bold">Comparison</div>
+                <button className="inline-flex items-center gap-1 text-sm border font-semibold rounded-3xl px-3 py-1.5">
                     6 months
                     <ChevronDown className="w-4 h-4" />
                 </button>
-            </CardHeader>
-            <CardContent>
+            </div>
+            <div>
                 <div className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -68,9 +67,31 @@ export function ComparisonChart() {
                             <Bar dataKey="thisYear" name="This year" fill="#2196F3" radius={[4, 4, 0, 0]} maxBarSize={40} />
                         </BarChart>
                     </ResponsiveContainer>
+                    <div className="flex justify-center items-center text-center font-semibold gap-10">
+                        <div className="flex gap-2 text-center items-center">
+                            <div className="w-3 h-3 rounded-sm bg-blue-500" />
+                            <span className="text-gray-500">This Year</span>
+                        </div>
+                        <div className="flex gap-2 text-center items-center">
+                            <span className="w-3 h-3 rounded-sm bg-blue-300" />
+                            <span className="text-gray-500">Last Year</span>
+                        </div>
+                    </div>
+                    {/* <div className="flex items-start gap-8 text-sm w-full font-semibold">
+                        <div className="flex flex-col gap-1">
+                            <div className="flex justify-center items-center gap-2">
+                            </div>
+                            <span className="font-semibold ml-1">{ }%</span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2">
+                            </div>
+                            <span className="font-semibold ml-1">{ }%</span>
+                        </div>
+                    </div> */}
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     )
 }
 

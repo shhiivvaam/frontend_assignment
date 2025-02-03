@@ -18,24 +18,24 @@ function KPICard({ title, value, change, prefix = "" }: KPICardProps) {
     const isPositive = change > 0
 
     return (
-        <Card>
-            <CardContent className="pt-6">
+        <div>
+            <CardContent className="pt-6 border-2 border-gray-200 rounded-xl">
                 <h3 className="text-[13px] text-gray-500 font-medium">{title}</h3>
-                <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center gap-2 mt-2">
                     <p className="text-2xl font-bold tracking-tight">
                         {prefix}
                         {value}
                     </p>
                     <div
-                        className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${isPositive ? "text-emerald-700 bg-emerald-50" : "text-red-700 bg-red-50"
+                        className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full border ${isPositive ? "text-emerald-700 bg-emerald-50" : "text-red-700 bg-red-50"
                             }`}
                     >
+                        <span> {isPositive ? "+" : "-"} {Math.abs(change)}%</span>
                         {isPositive ? <ArrowUpIcon className="w-3 h-3" /> : <ArrowDownIcon className="w-3 h-3" />}
-                        <span>{Math.abs(change)}%</span>
                     </div>
                 </div>
             </CardContent>
-        </Card>
+        </div>
     )
 }
 

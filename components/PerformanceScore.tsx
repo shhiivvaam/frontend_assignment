@@ -50,7 +50,7 @@ export function PerformanceScore() {
     if (!data) return <PerformanceScoreSkeleton />
 
     return (
-        <Card className="bg-white max-w-sm mx-auto rounded-3xl">
+        <Card className="bg-white max-w-sm mx-auto rounded-2xl">
             <CardContent className="p-8">
                 <div className="flex flex-col items-center">
                     <div className="relative w-40 h-24 mb-5">
