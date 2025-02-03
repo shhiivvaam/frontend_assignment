@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { fetchTimeSeriesData } from "@/lib/api"
 import type { TimeSeriesData } from "@/lib/types"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -18,15 +18,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 function CustomersChartSkeleton() {
     return (
-        <Card className="border-0 shadow-sm">
-            <CardHeader>
-                <Skeleton className="h-6 w-1/3" />
-            </CardHeader>
-            <CardContent>
-                <Skeleton className="h-[200px] w-full" />
-                <div className="mt-4 flex items-center justify-between">
-                    <Skeleton className="h-4 w-1/4" />
-                    <Skeleton className="h-4 w-1/4" />
+        <Card className="rounded-3xl">
+            <CardContent className="p-6">
+                <Skeleton className="h-7 w-1/2 mb-6" />
+                <Skeleton className="h-[180px] w-full mb-6" />
+                <div className="flex gap-8">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-24" />
                 </div>
             </CardContent>
         </Card>
@@ -53,46 +51,63 @@ export function CustomersChart() {
     if (error) return <div className="text-red-500">{error}</div>
     if (!data.length) return <CustomersChartSkeleton />
 
-    // chart k lia data 
     const chartData = data.map((item) => ({
         date: new Date(item.date2).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         web: item.unique_count,
         offline: item.cumulative_tweets - item.unique_count,
     }))
 
+    // growth ki percentage
+    const firstWeb = chartData[0].web
+    const lastWeb = chartData[chartData.length - 1].web
+    const firstOffline = chartData[0].offline
+    const lastOffline = chartData[chartData.length - 1].offline
+
+    const webGrowth = (((lastWeb - firstWeb) / firstWeb) * 100).toFixed(0)
+    const offlineGrowth = (((lastOffline - firstOffline) / firstOffline) * 100).toFixed(0)
+
     return (
-        <Card className="border-0 shadow-sm">
-            <CardHeader>
-                <CardTitle className="text-lg font-semibold">Customers by device</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="h-[200px]">
+        <Card className="rounded-3xl w-full">
+            <CardContent className="p-6">
+                <h2 className="text-xl font-semibold mb-6">Customers by device</h2>
+                <div className="h-[180px] mb-6">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                            <XAxis dataKey="date" />
-                            <YAxis />
+                            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#E5E7EB" />
+                            <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "#9CA3AF", fontSize: 12 }} />
+                            <YAxis
+                                axisLine={false}
+                                tickLine={false}
+                                tick={{ fill: "#9CA3AF", fontSize: 12 }}
+                                tickFormatter={(value) => `${value / 1000}k`}
+                            />
                             <Tooltip />
-                            <Line type="monotone" dataKey="web" name="Web sales" stroke="#2196F3" strokeWidth={2} dot={false} />
+                            <Line type="monotone" dataKey="web" stroke="#3B82F6" strokeWidth={2} dot={false} name="Web sales" />
                             <Line
                                 type="monotone"
                                 dataKey="offline"
-                                name="Offline selling"
-                                stroke="#90CAF9"
+                                stroke="#93C5FD"
                                 strokeWidth={2}
                                 dot={false}
+                                name="Offline selling"
                             />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
-                <div className="mt-4 flex items-center justify-between text-sm">
-                    <div>
-                        <span className="text-blue-600">Web sales</span>
-                        <span className="ml-2 font-semibold">{chartData[chartData.length - 1].web}</span>
+                <div className="flex items-start gap-8 text-sm w-full font-semibold">
+                    <div className="flex flex-col items-center gap-1">
+                        <div className="flex items-center gap-2">
+                            <span className="text-gray-500">Web sales</span>
+                            <div className="w-3 h-3 bg-blue-500" />
+                        </div>  
+                        <span className="font-semibold">{webGrowth}%</span>
                     </div>
-                    <div>
-                        <span className="text-blue-300">Offline selling</span>
-                        <span className="ml-2 font-semibold">{chartData[chartData.length - 1].offline}</span>
+                    <div className="flex flex-col items-center gap-1">
+                        <div className="flex items-center gap-2">
+                            <span className="text-gray-500">Offline selling</span>
+                            <div className="w-3 h-3 bg-blue-300" />
+                        </div>
+                        <span className="font-semibold">{offlineGrowth}%</span>
                     </div>
                 </div>
             </CardContent>

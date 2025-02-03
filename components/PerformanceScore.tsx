@@ -1,9 +1,32 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useEffect, useState } from "react"
 import { fetchPerformanceData } from "@/lib/api"
 import type { PerformanceData } from "@/lib/types"
+
+function PerformanceScoreSkeleton() {
+    return (
+        <Card className="bg-white max-w-sm mx-auto rounded-3xl">
+            <CardContent className="p-8">
+                <div className="flex flex-col items-center">
+                    <div className="relative w-40 h-24 mb-5">
+                        <Skeleton className="w-full h-full rounded-full" />
+                        <div className="pt-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                            <Skeleton className="h-8 w-16" />
+                        </div>
+                        <Skeleton className="h-4 w-24 mx-auto mt-2" />
+                    </div>
+                    <Skeleton className="h-px w-full my-7" />
+                    <Skeleton className="h-7 w-32 mb-2" />
+                    <Skeleton className="h-4 w-64 mb-6" />
+                    <Skeleton className="h-10 w-40 rounded-full" />
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
 export function PerformanceScore() {
     const [data, setData] = useState<PerformanceData | null>(null)
@@ -23,7 +46,8 @@ export function PerformanceScore() {
     }, [])
 
     if (error) return <div className="text-red-500">{error}</div>
-    if (!data) return <div>Loading...</div>
+    // if (!data) return <div>Loading...</div>
+    if (!data) return <PerformanceScoreSkeleton />
 
     return (
         <Card className="bg-white max-w-sm mx-auto rounded-3xl">

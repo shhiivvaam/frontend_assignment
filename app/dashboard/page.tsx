@@ -9,7 +9,7 @@ import { ChevronDown } from "lucide-react"
 
 export default function DashboardPage() {
     return (
-        <div className="flex min-h-screen bg-[#FAFAFA]">
+        <div className="flex h-screen bg-[#FAFAFA]">
             <Sidebar />
             <div className="flex-1 p-8">
                 <div className="flex items-center justify-between mb-8">
