@@ -10,10 +10,10 @@ import { ChevronDown } from "lucide-react"
 export default function DashboardPage() {
     return (
         <div className="p-4 bg-[#e1f0ff]">
-            <div className="flex h-screen rounded-3xl shadow-sm bg-[#f3f9ff]">
+            <div className="flex min-h-screen rounded-3xl shadow-sm bg-[#f3f9ff]">
                 <Sidebar />
                 <div className="flex-1 flex">
-                    <div className="flex-1 p-8 pr-8 rounded-xl shadow-sm mt-2 bg-white ">
+                    <div className="flex-1 p-8 pr-8 rounded-xl shadow-sm mt-2 mb-2 bg-white ">
                         <div className="flex items-center justify-between mb-8">
                             <h1 className="text-2xl font-semibold">Dashboard</h1>
                             <div className="flex items-center gap-3">
@@ -42,6 +42,6 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
